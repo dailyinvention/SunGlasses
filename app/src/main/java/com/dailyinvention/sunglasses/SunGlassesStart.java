@@ -1,6 +1,7 @@
 package com.dailyinvention.sunglasses;
 
 import android.app.Activity;
+import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -17,16 +18,17 @@ import java.util.List;
  * Created by dailyinvention on 9/24/14.
  */
 public class SunGlassesStart extends Activity {
-    public static LocationManager manager;
+
     private String latitude;
     private String longitude;
     private String location;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        latitude = String.valueOf(getLocation().getLatitude());
-        longitude = String.valueOf(getLocation().getLongitude());
+        Context context = this;
+        latitude = String.valueOf(getLocation(context).getLatitude());
+        longitude = String.valueOf(getLocation(context).getLongitude());
         location = "Latitude: " + latitude + "\r\n" + "Longitude: " + longitude;
 
         setContentView(R.layout.activity_sunglasses);
@@ -34,8 +36,8 @@ public class SunGlassesStart extends Activity {
         locationView.setText(location);
     }
 
-    public static Location getLocation() {
-
+    public Location getLocation(Context context) {
+        LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.NO_REQUIREMENT);
